@@ -5,13 +5,48 @@
 
 #include "gl_es_3x_jni.h"
 
-const Vertex QUAD[4] = {
-        // Square with diagonal < 2 so that it fits in a [-1 .. 1]^2 square
-        // regardless of rotation.
-        {{-0.7f, -0.7f}, {0x00, 0xFF, 0x00}},
-        {{ 0.7f, -0.7f}, {0x00, 0x00, 0xFF}},
-        {{-0.7f,  0.7f}, {0xFF, 0x00, 0x00}},
-        {{ 0.7f,  0.7f}, {0xFF, 0xFF, 0xFF}},
+const Vertex CUBE[] = {
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+
+        {{-0.5f, -0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{0.5f, -0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {0.0f, 1.0f, 0.0f}},
+
+        {{-0.5f,  0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
+
+        {{0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 0.0f}},
+        {{0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 0.0f}},
+        {{0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 0.0f}},
+        {{0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 0.0f}},
+        {{0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 0.0f}},
+        {{0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 0.0f}},
+
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 1.0f}},
+        {{0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 1.0f}},
+        {{0.5f, -0.5f, 0.5f }, {1.0f, 0.0f, 1.0f}},
+        {{0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 1.0f}},
+
+        {{-0.5f,  0.5f, -0.5f}, {0.0f, 1.0f, 1.0f}},
+        {{0.5f,  0.5f, -0.5f}, {0.0f, 1.0f, 1.0f}},
+        {{0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 1.0f}},
+        {{0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 1.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {0.0f, 1.0f, 1.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {0.0f, 1.0f, 1.0f}},
 };
 
 bool checkGlError(const char* funcName) {
@@ -120,10 +155,6 @@ Renderer::~Renderer() {
 }
 
 void Renderer::resize(int w, int h) {
-    auto offsets = mapOffsetBuf();
-    calcSceneParams(w, h, offsets);
-    unmapOffsetBuf();
-
     // Auto gives a signed int :-(
     for (auto i = (unsigned)0; i < mNumInstances; i++) {
         mAngles[i] = drand48() * TWO_PI;
@@ -192,17 +223,6 @@ void Renderer::step() {
                 mAngles[i] += TWO_PI;
             }
         }
-
-        float* transforms = mapTransformBuf();
-        for (unsigned int i = 0; i < mNumInstances; i++) {
-            float s = sinf(mAngles[i]);
-            float c = cosf(mAngles[i]);
-            transforms[4*i + 0] =  c * mScale[0];
-            transforms[4*i + 1] =  s * mScale[1];
-            transforms[4*i + 2] = -s * mScale[0];
-            transforms[4*i + 3] =  c * mScale[1];
-        }
-        unmapTransformBuf();
     }
 
     mLastFrameNs = nowNs;
@@ -242,8 +262,6 @@ Java_at_tributsch_msp_1android_1opengl_1es_GlEs30JniLib_init(JNIEnv* env, jclass
     const char* versionStr = (const char*)glGetString(GL_VERSION);
     if (strstr(versionStr, "OpenGL ES 3.") && gl3stubInit()) {
         g_renderer = createES3Renderer();
-    } else if (strstr(versionStr, "OpenGL ES 2.")) {
-        g_renderer = createES2Renderer();
     } else {
         ALOGE("Unsupported OpenGL ES version");
     }

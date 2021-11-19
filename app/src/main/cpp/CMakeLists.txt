@@ -28,7 +28,6 @@ add_library(gl_es_3x_jni SHARED
         ${GL3STUB_SRC}
         gl_es_3x_jni.cpp
         renderer_es_3x.cpp
-        renderer_es_2x.cpp
         )
 
 # Include libraries needed for gles3jni lib

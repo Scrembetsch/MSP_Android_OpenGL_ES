@@ -6,8 +6,7 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class GlEs30JniView extends GLSurfaceView
-{
+public class GlEs30JniView extends GLSurfaceView {
     public GlEs30JniView(Context context) {
         super(context);
         // Pick an EGLConfig with RGB8 color, 16-bit depth, no stencil,
