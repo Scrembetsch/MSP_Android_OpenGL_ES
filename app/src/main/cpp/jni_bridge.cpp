@@ -28,7 +28,7 @@ Java_at_tributsch_msp_1android_1opengl_1es_GlEs30JniLib_init(JNIEnv* env, jclass
 
     const char* versionStr = (const char*)glGetString(GL_VERSION);
     if (strstr(versionStr, "OpenGL ES 3.") && gl3stubInit()) {
-        g_Renderer = createES3Renderer();
+        g_Renderer = CreateES3Renderer();
     } else {
         LOGE("JNI_BRIDGE", "Unsupported OpenGL ES version");
     }

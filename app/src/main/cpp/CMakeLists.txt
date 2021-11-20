@@ -27,7 +27,6 @@ endif (${ANDROID_PLATFORM_LEVEL} LESS 12)
 add_library(gl_es_3x_jni SHARED
         ${GL3STUB_SRC}
         gl/gl_util.cpp
-        gl/gl_es_3x_util.cpp
         primitive/vertex.cpp
         primitive/mesh.cpp
         primitive/cube.cpp

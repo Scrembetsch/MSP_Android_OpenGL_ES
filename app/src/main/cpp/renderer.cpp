@@ -26,7 +26,7 @@ void Renderer::Step() {
     std::chrono::duration<float> elapsed_seconds = now - mLastFrameTime;
     mDeltaTime = elapsed_seconds.count();
 
-    mMesh.mModel = glm::rotate(mMesh.mModel, glm::radians(90.0f) * mDeltaTime, glm::vec3(3.0f, 2.0f, 5.0f));
+    mMesh.mModel = glm::rotate(mMesh.mModel, glm::radians(90.0f) * mDeltaTime, glm::vec3(5.0f, 5.0f, 1.0f));
 
     mLastFrameTime = now;
 }

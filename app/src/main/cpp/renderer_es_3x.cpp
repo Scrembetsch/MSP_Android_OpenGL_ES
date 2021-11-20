@@ -1,10 +1,10 @@
-#include "jni_bridge.h"
-#include <EGL/egl.h>
-
+#include "renderer_es_3x.h"
 #include "primitive/cube.h"
-#include "gl/gl_es_3x_util.h"
-#include "util.h"
+#include "gl/gl_util.h"
 #include "glm/glm.hpp"
+#include "util.h"
+
+#include <EGL/egl.h>
 
 #define STR(s) #s
 #define STRV(s) STR(s)
@@ -34,24 +34,11 @@ static const char FRAGMENT_SHADER[] =
         "    outColor = vColor;\n"
         "}\n";
 
-class RendererES3: public Renderer {
-public:
-    RendererES3();
-    ~RendererES3() override;
-    bool Init();
-
-private:
-    void Draw() override;
-
-    const EGLContext mEglContext;
-    GLuint mProgram;
-};
-
-Renderer* createES3Renderer() {
+Renderer* CreateES3Renderer() {
     RendererES3* renderer = new RendererES3;
     if (!renderer->Init()) {
         delete renderer;
-        return NULL;
+        return nullptr;
     }
     return renderer;
 }

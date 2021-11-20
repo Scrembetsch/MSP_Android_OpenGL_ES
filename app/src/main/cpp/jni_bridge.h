@@ -3,6 +3,6 @@
 
 #include "renderer.h"
 
-extern Renderer* createES3Renderer();
+extern Renderer* CreateES3Renderer();
 
 #endif // GL_ES_3X_JNI_H
