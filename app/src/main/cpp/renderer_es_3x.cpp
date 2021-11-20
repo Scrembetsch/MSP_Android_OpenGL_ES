@@ -1,9 +1,12 @@
 #include "gl_es_3x_jni.h"
 #include <EGL/egl.h>
 
-#include "cube.h"
-#include "plane.h"
-#include "triangle.h"
+#include "primitive/cube.h"
+#include "primitive/plane.h"
+#include "primitive/triangle.h"
+#include "gl/gl_es_3x_util.h"
+#include "util.h"
+#include "glm/glm.hpp"
 
 #define STR(s) #s
 #define STRV(s) STR(s)
@@ -13,12 +16,15 @@
 
 static const char VERTEX_SHADER[] =
         "#version 300 es\n"
-        "layout(location = " STRV(POS_ATTRIB) ") in vec3 pos;\n"
-        "layout(location=" STRV(COLOR_ATTRIB) ") in vec3 color;\n"
+        "layout(location = " STRV(POS_ATTRIB) ") in vec3 aPos;\n"
+        "layout(location=" STRV(COLOR_ATTRIB) ") in vec3 aColor;\n"
+        "uniform mat4 uProjection;\n"
+        "uniform mat4 uView;\n"
+        "uniform mat4 uModel;\n"
         "out vec4 vColor;\n"
         "void main() {\n"
-        "    gl_Position = vec4(pos, 1.0);\n"
-        "    vColor = vec4(color, 1.0);\n"
+        "    gl_Position = uProjection * uView * uModel * vec4(aPos, 1.0);\n"
+        "    vColor = vec4(aColor, 1.0);\n"
         "}\n";
 
 static const char FRAGMENT_SHADER[] =
@@ -41,7 +47,6 @@ private:
 
     const EGLContext mEglContext;
     GLuint mProgram;
-    Cube mMesh;
 };
 
 Renderer* createES3Renderer() {
@@ -54,17 +59,19 @@ Renderer* createES3Renderer() {
 }
 
 RendererES3::RendererES3()
-        : mEglContext(eglGetCurrentContext())
-        , mProgram(0)
+    : mEglContext(eglGetCurrentContext())
+    , mProgram(0)
 {
 }
 
 bool RendererES3::init() {
-    mProgram = createProgram(VERTEX_SHADER, FRAGMENT_SHADER);
+    mProgram = GlUtil::CreateProgram(VERTEX_SHADER, FRAGMENT_SHADER);
     if (!mProgram)
         return false;
 
-    ALOGV("Using OpenGL ES 3.0 renderer");
+    glEnable(GL_DEPTH_TEST);
+
+    LOGV("RENDERER3x", "Using OpenGL ES 3.0 renderer");
     return true;
 }
 
@@ -82,5 +89,7 @@ RendererES3::~RendererES3() {
 
 void RendererES3::draw() {
     glUseProgram(mProgram);
-    mMesh.Draw();
+    glUniformMatrix4fv(glGetUniformLocation(mProgram, "uProjection"), 1, GL_FALSE, &mProjectionMat[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(mProgram, "uView"), 1, GL_FALSE, &mViewMat[0][0]);
+    mMesh.Draw(mProgram);
 }
