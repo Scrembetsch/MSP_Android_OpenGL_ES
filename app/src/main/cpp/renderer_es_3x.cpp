@@ -1,9 +1,7 @@
-#include "gl_es_3x_jni.h"
+#include "jni_bridge.h"
 #include <EGL/egl.h>
 
 #include "primitive/cube.h"
-#include "primitive/plane.h"
-#include "primitive/triangle.h"
 #include "gl/gl_es_3x_util.h"
 #include "util.h"
 #include "glm/glm.hpp"
@@ -39,11 +37,11 @@ static const char FRAGMENT_SHADER[] =
 class RendererES3: public Renderer {
 public:
     RendererES3();
-    virtual ~RendererES3();
-    bool init();
+    ~RendererES3() override;
+    bool Init();
 
 private:
-    virtual void draw();
+    void Draw() override;
 
     const EGLContext mEglContext;
     GLuint mProgram;
@@ -51,7 +49,7 @@ private:
 
 Renderer* createES3Renderer() {
     RendererES3* renderer = new RendererES3;
-    if (!renderer->init()) {
+    if (!renderer->Init()) {
         delete renderer;
         return NULL;
     }
@@ -59,12 +57,13 @@ Renderer* createES3Renderer() {
 }
 
 RendererES3::RendererES3()
-    : mEglContext(eglGetCurrentContext())
+    : Renderer()
+    , mEglContext(eglGetCurrentContext())
     , mProgram(0)
 {
 }
 
-bool RendererES3::init() {
+bool RendererES3::Init() {
     mProgram = GlUtil::CreateProgram(VERTEX_SHADER, FRAGMENT_SHADER);
     if (!mProgram)
         return false;
@@ -80,14 +79,14 @@ RendererES3::~RendererES3() {
      * destroyed, in which case our objects have already been destroyed.
      *
      * If the context exists, it must be current. This only happens when we're
-     * cleaning up after a failed init().
+     * cleaning up after a failed Init().
      */
     if (eglGetCurrentContext() != mEglContext)
         return;
     glDeleteProgram(mProgram);
 }
 
-void RendererES3::draw() {
+void RendererES3::Draw() {
     glUseProgram(mProgram);
     glUniformMatrix4fv(glGetUniformLocation(mProgram, "uProjection"), 1, GL_FALSE, &mProjectionMat[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(mProgram, "uView"), 1, GL_FALSE, &mViewMat[0][0]);

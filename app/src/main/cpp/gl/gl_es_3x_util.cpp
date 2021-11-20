@@ -1,16 +1,8 @@
 #include "gl_es_3x_util.h"
+#include "gl_util.h"
 #include "../util.h"
 
 #include <malloc.h>
-
-bool GlUtil::CheckGlError(const char* funcName) {
-    GLint err = glGetError();
-    if (err != GL_NO_ERROR) {
-        LOGE("GL_UTIL", "GL error after %s(): 0x%08x\n", funcName, err);
-        return true;
-    }
-    return false;
-}
 
 GLuint GlUtil::CreateShader(GLenum shaderType, const char* src) {
     GLuint shader = glCreateShader(shaderType);
@@ -87,9 +79,4 @@ GLuint GlUtil::CreateProgram(const char* vtxSrc, const char* fragSrc) {
     glDeleteShader(vtxShader);
     glDeleteShader(fragShader);
     return program;
-}
-
-void GlUtil::PrintGlString(const char* name, GLenum s) {
-    const char* v = (const char*)glGetString(s);
-    LOGV("GL_UTIL", "GL %s: %s\n", name, v);
 }

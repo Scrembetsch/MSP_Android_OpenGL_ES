@@ -164,7 +164,7 @@ namespace gtc
 		vec<4, T, Q> gz1 = vec<4, T, Q>(0.5) - abs(gx1) - abs(gy1);
 		vec<4, T, Q> sz1 = step(gz1, vec<4, T, Q>(0.0));
 		gx1 -= sz1 * (step(T(0), gx1) - T(0.5));
-		gy1 -= sz1 * (step(T(0), gy1) - T(0.5));
+		gy1 -= sz1 * (Step(T(0), gy1) - T(0.5));
 
 		vec<3, T, Q> g000(gx0.x, gy0.x, gz0.x);
 		vec<3, T, Q> g100(gx0.y, gy0.y, gz0.y);
@@ -601,7 +601,7 @@ namespace gtc
 		vec<2, T, Q> x0 = v -   i + dot(i, vec<2, T, Q>(C[0]));
 
 		// Other corners
-		//i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
+		//i1.x = Step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
 		//i1.y = 1.0 - i1.x;
 		vec<2, T, Q> i1 = (x0.x > x0.y) ? vec<2, T, Q>(1, 0) : vec<2, T, Q>(0, 1);
 		// x0 = x0 - 0.0 + 0.0 * C.xx ;

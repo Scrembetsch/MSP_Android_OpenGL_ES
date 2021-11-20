@@ -540,7 +540,7 @@ namespace detail
 		return detail::compute_mix_vector<L, T, U, Q, detail::is_aligned<Q>::value>::call(x, y, a);
 	}
 
-	// step
+	// Step
 	template<typename genType>
 	GLM_FUNC_QUALIFIER genType step(genType edge, genType x)
 	{

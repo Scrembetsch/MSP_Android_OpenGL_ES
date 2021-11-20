@@ -2,6 +2,7 @@ package at.tributsch.msp_android_opengl_es;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 public class GlEs30JniActivity extends Activity {
 
@@ -21,5 +22,6 @@ public class GlEs30JniActivity extends Activity {
     @Override protected void onResume() {
         super.onResume();
         mView.onResume();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }

@@ -316,7 +316,7 @@ namespace glm
 
 	/// Returns 0.0 if x < edge, otherwise it returns 1.0 for each component of a genType.
 	///
-	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL step man page</a>
+	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL Step man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 	template<typename genType>
 	GLM_FUNC_DECL genType step(genType edge, genType x);
@@ -327,7 +327,7 @@ namespace glm
 	/// @tparam T Floating-point scalar types
 	/// @tparam Q Value from qualifier enum
 	///
-	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL step man page</a>
+	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL Step man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 	template<length_t L, typename T, qualifier Q>
 	GLM_FUNC_DECL vec<L, T, Q> step(T edge, vec<L, T, Q> const& x);
@@ -338,7 +338,7 @@ namespace glm
 	/// @tparam T Floating-point scalar types
 	/// @tparam Q Value from qualifier enum
 	///
-	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL step man page</a>
+	/// @see <a href="http://www.opengl.org/sdk/docs/manglsl/xhtml/step.xml">GLSL Step man page</a>
 	/// @see <a href="http://www.opengl.org/registry/doc/GLSLangSpec.4.20.8.pdf">GLSL 4.20.8 specification, section 8.3 Common Functions</a>
 	template<length_t L, typename T, qualifier Q>
 	GLM_FUNC_DECL vec<L, T, Q> step(vec<L, T, Q> const& edge, vec<L, T, Q> const& x);

@@ -300,7 +300,7 @@ namespace glm
 
 	//GLM_SWIZZLE_FUNCTION_2_ARGS(value_type,  dot);
 	//GLM_SWIZZLE_FUNCTION_2_ARGS(vec_type,    cross);
-	//GLM_SWIZZLE_FUNCTION_2_ARGS(vec_type,    step);
+	//GLM_SWIZZLE_FUNCTION_2_ARGS(vec_type,    Step);
 	//GLM_SWIZZLE_FUNCTION_2_ARGS_SCALAR(vec_type, mix);
 }
 

@@ -26,13 +26,14 @@ endif (${ANDROID_PLATFORM_LEVEL} LESS 12)
 
 add_library(gl_es_3x_jni SHARED
         ${GL3STUB_SRC}
+        gl/gl_util.cpp
         gl/gl_es_3x_util.cpp
         primitive/vertex.cpp
-        primitive/triangle.cpp
-        primitive/plane.cpp
+        primitive/mesh.cpp
         primitive/cube.cpp
-        gl_es_3x_jni.cpp
+        jni_bridge.cpp
         renderer_es_3x.cpp
+        renderer.cpp
         util.cpp
         )
 

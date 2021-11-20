@@ -37,7 +37,7 @@ namespace detail
 	GLM_FUNC_QUALIFIER unsigned int ones32(unsigned int x)
 	{
 		/* 32-bit recursive reduction using SWAR...
-		but first step is mapping 2-bit values
+		but first Step is mapping 2-bit values
 		into sum of 2 1-bit values in sneaky way
 		*/
 		x -= ((x >> 1) & 0x55555555);

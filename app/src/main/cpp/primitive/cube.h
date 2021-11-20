@@ -1,21 +1,14 @@
 #ifndef MSP_ANDROID_OPENGL_ES_CUBE_H
 #define MSP_ANDROID_OPENGL_ES_CUBE_H
 
-#include "vertex.h"
+#include "mesh.h"
 
-class Cube {
+class Cube : public Mesh{
 public:
     Cube();
     ~Cube();
 
-    void Draw(GLuint shader) const;
-
-    glm::mat4 mModel;
-
 private:
-    GLuint mVao;
-    GLuint mVbo;
-
     static const unsigned int cNumVertices = 36;
     static const Vertex cBaseCube[cNumVertices];
 };
